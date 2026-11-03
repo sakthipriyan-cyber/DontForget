@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block title %}Don'tForget - Settings{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] w-full mx-auto px-margin-mobile md:px-margin pb-space-xl flex flex-col gap-space-lg">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+        <div class="flex flex-col gap-space-xs max-w-3xl">
+            <div class="flex items-center gap-space-sm">
+                <span class="px-space-sm py-space-xs rounded-full bg-primary-container/30 text-primary font-label-sm text-label-sm uppercase tracking-wider">Configuration</span>
+            </div>
+            <h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Settings</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">Configure your Don'tForget preferences and application settings.</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-space-lg">
+        <!-- Application Settings -->
+        <section class="bg-surface-container rounded-xl p-space-lg shadow-xl">
+            <div class="flex items-center gap-space-sm mb-space-md pb-space-md border-b border-outline-variant/20">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-xl">settings</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Application Settings</h2>
+            </div>
+
+            <div class="flex flex-col gap-space-md">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-md rounded-lg bg-surface-container-low">
+                    <div class="flex flex-col">
+                        <span class="font-label-lg text-label-lg text-on-surface font-semibold">Dark Mode</span>
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">Use dark theme across the application</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input checked class="sr-only peer" type="checkbox">
+                        <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-md rounded-lg bg-surface-container-low">
+                    <div class="flex flex-col">
+                        <span class="font-label-lg text-label-lg text-on-surface font-semibold">Auto-save Checklists</span>
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">Automatically save checklist progress as you check items</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input checked class="sr-only peer" type="checkbox">
+                        <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-md rounded-lg bg-surface-container-low">
+                    <div class="flex flex-col">
+                        <span class="font-label-lg text-label-lg text-on-surface font-semibold">Sound Notifications</span>
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">Play sounds for reminders and alerts</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input class="sr-only peer" type="checkbox">
+                        <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Destination Management -->
+        <section class="bg-surface-container rounded-xl p-space-lg shadow-xl">
+            <div class="flex items-center gap-space-sm mb-space-md pb-space-md border-b border-outline-variant/20">
+                <div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+                    <span class="material-symbols-outlined text-xl">folder</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Custom Destinations</h2>
+            </div>
+
+            <div class="flex flex-col gap-space-md">
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Manage your custom checklist destinations. Built-in destinations (College, Lab, Outing) cannot be modified.</p>
+
+                <div class="flex flex-wrap items-center gap-space-sm">
+                    <button id="add-destination-btn" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_0_24px_-2px_rgba(128,131,255,0.45)] hover:brightness-110 active:scale-95 transition-all">
+                        <span class="material-symbols-outlined text-lg">add</span>
+                        <span>Add Destination</span>
+                    </button>
+                </div>
+
+                <div class="flex flex-col gap-space-sm">
+                    {% for dest in custom_destinations %}
+                    <div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low">
+                        <div class="flex items-center gap-space-sm">
+                            <div class="w-8 h-8 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary">
+                                <span class="material-symbols-outlined text-base">place</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-label-lg text-label-lg text-on-surface font-semibold">{{ dest.name }}</span>
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">{{ dest.items|length }} items • Created {{ dest.created_at[:10] }}</span>
+                            </div>
+                        </div>
+                        <button onclick="deleteDestination('{{ dest.name }}')" class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-error/10 text-error font-label-sm text-label-sm hover:bg-error/20 transition-colors">
+                            <span class="material-symbols-outlined text-sm">delete</span>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+
+                    {% if not custom_destinations %}
+                    <div class="p-space-md rounded-lg bg-surface-container-low text-center">
+                        <span class="material-symbols-outlined text-4xl text-on-surface-variant">folder_open</span>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-space-sm">No custom destinations yet. Click "Add Destination" to create one.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Management -->
+        <section class="bg-surface-container rounded-xl p-space-lg shadow-xl">
+            <div class="flex items-center gap-space-sm mb-space-md pb-space-md border-b border-outline-variant/20">
+                <div class="w-10 h-10 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+                    <span class="material-symbols-outlined text-xl">storage</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Data Management</h2>
+            </div>
+
+            <div class="flex flex-col gap-space-md">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-md rounded-lg bg-surface-container-low">
+                    <div class="flex flex-col">
+                        <span class="font-label-lg text-label-lg text-on-surface font-semibold">Export History</span>
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">Download your checklist history as JSON</span>
+                    </div>
+                    <a href="{{ url_for('export_history') }}" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-surface-container-high text-on-surface font-label-lg text-label-lg hover:bg-surface-container-highest transition-colors no-underline">
+                        <span class="material-symbols-outlined text-lg">download</span>
+                        <span>Export</span>
+                    </a>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm p-space-md rounded-lg bg-error/10 border border-error/20">
+                    <div class="flex flex-col">
+                        <span class="font-label-lg text-label-lg text-error font-semibold">Clear All History</span>
+                        <span class="font-body-sm text-body-sm text-error/80">Permanently delete all checklist sessions (cannot be undone)</span>
+                    </div>
+                    <button onclick="confirmClearHistory()" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-error text-on-error font-label-lg text-label-lg hover:bg-error/90 transition-colors">
+                        <span class="material-symbols-outlined text-lg">delete_forever</span>
+                        <span>Clear History</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="bg-surface-container rounded-xl p-space-lg shadow-xl">
+            <div class="flex items-center gap-space-sm mb-space-md pb-space-md border-b border-outline-variant/20">
+                <div class="w-10 h-10 rounded-xl bg-outline/10 flex items-center justify-center text-outline">
+                    <span class="material-symbols-outlined text-xl">info</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">About</h2>
+            </div>
+
+            <div class="flex flex-col gap-space-sm">
+                <div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low">
+                    <span class="font-label-md text-label-md text-on-surface-variant">Version</span>
+                    <span class="font-body-md text-body-md text-on-surface">1.0.0</span>
+                </div>
+                <div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low">
+                    <span class="font-label-md text-label-md text-on-surface-variant">Database Location</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant font-mono">web/dontforget.db</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Add Destination Modal -->
+<div id="add-destination-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-surface-container-lowest/80 backdrop-blur-md">
+    <div class="relative w-full max-w-lg bg-surface-container-low border border-outline-variant/30 rounded-xl shadow-[0_0_24px_-2px_rgba(128,131,255,0.4)] overflow-hidden">
+        <div class="p-space-md border-b border-outline-variant/20 flex items-center justify-between">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Add Custom Destination</h3>
+            <button onclick="closeModal()" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-variant flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+        <form id="add-destination-form" class="p-space-md flex flex-col gap-space-md">
+            <div class="flex flex-col gap-space-xs">
+                <label for="dest-name" class="font-label-lg text-label-lg text-on-surface font-semibold">Destination Name</label>
+                <input id="dest-name" name="name" type="text" class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-space-md py-space-sm rounded-lg outline-none focus:bg-surface-container-high transition-colors" placeholder="e.g., Gym, Grocery Store" required>
+            </div>
+            <div class="flex flex-col gap-space-xs">
+                <label for="dest-items" class="font-label-lg text-label-lg text-on-surface font-semibold">Checklist Items (one per line)</label>
+                <textarea id="dest-items" name="items" rows="5" class="w-full bg-surface-container text-on-surface font-body-md text-body-md px-space-md py-space-sm rounded-lg outline-none focus:bg-surface-container-high transition-colors" placeholder="Water bottle&#10;Towel&#10;Gym clothes&#10;Headphones" required></textarea>
+            </div>
+            <div class="flex gap-space-sm">
+                <button type="button" onclick="closeModal()" class="flex-1 inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-surface-container-high text-on-surface font-label-lg text-label-lg hover:bg-surface-container-highest transition-colors">
+                    <span>Cancel</span>
+                </button>
+                <button type="submit" class="flex-1 inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_0_24px_-2px_rgba(128,131,255,0.45)] hover:brightness-110 active:scale-95 transition-all">
+                    <span class="material-symbols-outlined text-lg">add</span>
+                    <span>Add Destination</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openModal() {
+    document.getElementById('add-destination-modal').classList.remove('hidden');
+    document.getElementById('add-destination-modal').classList.add('flex');
+}
+
+function closeModal() {
+    document.getElementById('add-destination-modal').classList.add('hidden');
+    document.getElementById('add-destination-modal').classList.remove('flex');
+    document.getElementById('add-destination-form').reset();
+}
+
+document.getElementById('add-destination-btn').addEventListener('click', openModal);
+
+document.getElementById('add-destination-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('dest-name').value;
+    const itemsText = document.getElementById('dest-items').value;
+    const items = itemsText.split('\n').map(item => item.trim()).filter(item => item);
+
+    try {
+        const response = await fetch('/settings/add-destination', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, items })
+        });
+
+        if (response.ok) {
+            closeModal();
+            window.location.reload();
+        } else {
+            const data = await response.json();
+            alert(data.error || 'Failed to add destination');
+        }
+    } catch (error) {
+        alert('Error adding destination: ' + error.message);
+    }
+});
+
+async function deleteDestination(name) {
+    if (!confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch('/settings/delete-destination', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name })
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            alert('Failed to delete destination');
+        }
+    } catch (error) {
+        alert('Error deleting destination: ' + error.message);
+    }
+}
+
+function confirmClearHistory() {
+    if (!confirm('Are you sure you want to clear ALL checklist history? This action cannot be undone.')) {
+        return;
+    }
+
+    if (!confirm('This will permanently delete all your saved sessions. Type "DELETE" to confirm.')) {
+        return;
+    }
+
+    window.location.href = '/settings/clear-history';
+}
+</script>
+{% endblock %}

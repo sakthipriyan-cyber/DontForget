@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Don'tForget - History{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] w-full mx-auto px-margin-mobile md:px-margin pb-space-xl flex flex-col gap-space-lg">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+        <div class="flex flex-col gap-space-xs max-w-3xl">
+            <div class="flex items-center gap-space-sm">
+                <span class="px-space-sm py-space-xs rounded-full bg-secondary-container/30 text-secondary font-label-sm text-label-sm uppercase tracking-wider">Audit Subsystem v2.4</span>
+            </div>
+            <h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Departure History & Audit Log</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">Detailed temporal record of past departures, checklist sessions, and completion patterns.</p>
+
+            
+            <form method="POST"
+                action="{{ url_for('delete_history') }}"
+                onsubmit="return confirm('Permanently delete all checklist history? This cannot be undone.');">
+                <button type="submit" class="delete-history-btn">
+                    Delete All History
+                </button>
+            </form>
+
+        </div>
+        <div class="flex flex-wrap items-center gap-space-sm">
+            <a href="/export-history" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-surface-container text-on-surface font-label-lg text-label-lg shadow-sm hover:bg-surface-container-high transition-all no-underline">
+                <span class="material-symbols-outlined text-base text-primary">download</span>
+                <span>Export Log</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary KPI Ribbon -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+        <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-primary/10 blur-xl group-hover:bg-primary/20 transition-all pointer-events-none"></div>
+            <div class="flex items-center justify-between">
+                <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Sessions</span>
+                <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-base">door_front</span>
+                </div>
+            </div>
+            <div class="mt-space-md flex flex-col">
+                <div class="flex items-baseline gap-space-xs">
+                    <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ sessions|length }}</span>
+                    <span class="font-label-md text-label-md text-secondary font-medium">Sessions</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-secondary/10 blur-xl group-hover:bg-secondary/20 transition-all pointer-events-none"></div>
+            <div class="flex items-center justify-between">
+                <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Avg Completion</span>
+                <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+                    <span class="material-symbols-outlined text-base">percent</span>
+                </div>
+            </div>
+            <div class="mt-space-md flex flex-col">
+                <div class="flex items-baseline gap-space-xs">
+                    {% set avg_completion = (sessions|map(attribute='completion_percent')|list|sum / sessions|length) if sessions else 0 %}
+                    <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ avg_completion|round(1) }}%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-tertiary-container/20 blur-xl group-hover:bg-tertiary-container/30 transition-all pointer-events-none"></div>
+            <div class="flex items-center justify-between">
+                <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Perfect Sessions</span>
+                <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-tertiary">
+                    <span class="material-symbols-outlined text-base">verified</span>
+                </div>
+            </div>
+            <div class="mt-space-md flex flex-col">
+                <div class="flex items-baseline gap-space-xs">
+                    {% set perfect_count = sessions|selectattr('completion_percent', 'equalto', 100)|list|length %}
+                    <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ perfect_count }}</span>
+                    <span class="font-label-md text-label-md text-tertiary font-medium">100% Complete</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-secondary-container/20 blur-xl group-hover:bg-secondary-container/30 transition-all pointer-events-none"></div>
+            <div class="flex items-center justify-between">
+                <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Destinations</span>
+                <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+                    <span class="material-symbols-outlined text-base">place</span>
+                </div>
+            </div>
+            <div class="mt-space-md flex flex-col">
+                <div class="flex items-baseline gap-space-xs">
+                    <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ unique_destinations_count }}</span>
+                    <span class="font-label-md text-label-md text-on-surface-variant font-medium">Unique</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Control Bar -->
+    <div class="p-space-md rounded-xl bg-surface-container-low/70 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+        <div class="flex flex-wrap items-center gap-space-sm flex-1">
+            <label for="destination-filter" class="font-label-md text-label-md text-on-surface">Filter by destination:</label>
+            <select name="destination" id="destination-filter" class="appearance-none bg-surface-container text-on-surface font-label-md text-label-md px-space-md py-space-sm pr-space-lg rounded-lg outline-none cursor-pointer hover:bg-surface-container-high transition-colors" onchange="window.location.href='{{ url_for('history') }}?destination=' + encodeURIComponent(this.value)">
+                <option value="All" {% if filter_destination == 'All' %}selected{% endif %}>All Destinations</option>
+                {% for dest in available_destinations %}
+                <option value="{{ dest }}" {% if filter_destination == dest %}selected{% endif %}>{{ dest }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="flex items-center gap-space-xs self-end lg:self-center">
+            <span class="font-label-sm text-label-sm text-on-surface-variant">Showing {{ sessions|length }} session(s)</span>
+        </div>
+    </div>
+
+    {% if sessions %}
+    <div class="flex flex-col gap-space-md">
+        {% for session in sessions %}
+        <div class="p-space-lg rounded-xl bg-surface-container-low/95 shadow-md hover:shadow-xl transition-all flex flex-col gap-space-md border-l-4 border-primary">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+                <div class="flex items-center gap-space-sm">
+                    <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-xl">history</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">{{ session.destination }}</h3>
+                        <span class="font-body-sm text-body-sm text-on-surface-variant">{{ session.timestamp }}</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-space-xs">
+                    <span class="px-space-md py-space-xs rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1.5">
+                        <span class="h-2 w-2 rounded-full bg-primary"></span>
+                        {{ session.completion_percent|round(1) }}% Complete
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-space-md">
+                <div class="text-center p-space-md bg-surface-container-low rounded-lg">
+                    <span class="block font-display-lg text-headline-xl text-on-surface font-bold">{{ session.packed_count }}</span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Packed</span>
+                </div>
+                <div class="text-center p-space-md bg-surface-container-low rounded-lg">
+                    <span class="block font-display-lg text-headline-xl text-on-surface font-bold">{{ session.total_items - session.packed_count }}</span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Missing</span>
+                </div>
+                <div class="text-center p-space-md bg-surface-container-low rounded-lg">
+                    <span class="block font-display-lg text-headline-xl text-on-surface font-bold">{{ session.total_items }}</span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Total</span>
+                </div>
+            </div>
+
+            {% if session.missing_items %}
+            <div class="p-space-md rounded-lg bg-amber-500/10 border border-amber-500/30">
+                <div class="flex items-center gap-space-sm mb-space-sm">
+                    <span class="material-symbols-outlined text-amber-300">warning</span>
+                    <span class="font-body-md text-body-md text-amber-300 font-semibold">Missing items:</span>
+                </div>
+                <ul class="list-disc list-inside font-body-sm text-body-sm text-amber-200 space-y-1">
+                    {% for item in session.missing_items %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="p-space-md rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-emerald-300 text-xl">check_circle</span>
+                <span class="font-body-md text-body-md text-emerald-300 font-semibold">All items packed!</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-surface-container rounded-xl p-space-lg shadow-xl text-center">
+        <div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-space-md">
+            <span class="material-symbols-outlined text-4xl text-on-surface-variant">history</span>
+        </div>
+        <h2 class="font-headline-xl text-headline-xl text-on-surface tracking-tight mb-space-sm">No History Yet</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-space-md">Complete your first checklist to start tracking your departure habits.</p>
+        <a href="{{ url_for('checklist') }}" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_0_24px_-2px_rgba(128,131,255,0.45)] hover:brightness-110 active:scale-95 transition-all no-underline">
+            <span class="material-symbols-outlined text-lg">add_circle</span>
+            <span>Start a Checklist</span>
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

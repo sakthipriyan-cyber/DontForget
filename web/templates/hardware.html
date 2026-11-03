@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Don'tForget - Hardware Status{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] w-full mx-auto px-margin-mobile md:px-margin pb-space-xl flex flex-col gap-space-lg">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+        <div class="flex flex-col gap-space-xs max-w-3xl">
+            <div class="flex items-center gap-space-sm">
+                <span class="px-space-sm py-space-xs rounded-full bg-error/20 text-error font-label-sm text-label-sm uppercase tracking-wider">Unavailable</span>
+            </div>
+            <h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Hardware Configuration</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">BLE beacon pairing and hardware sensor integration are not available in this environment.</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-space-lg">
+        <!-- Hardware Status Banner -->
+        <section class="p-space-lg rounded-xl bg-error/10 border border-error/30 flex items-start gap-space-sm">
+            <span class="material-symbols-outlined text-error text-2xl">error_outline</span>
+            <div class="flex flex-col gap-space-xs">
+                <h2 class="font-headline-lg text-headline-lg text-error font-bold">Hardware Features Unavailable</h2>
+                <p class="font-body-md text-body-md text-error/90">BLE beacon pairing, hardware sensor integration, and proximity detection require specific hardware and browser capabilities that are not available in this environment. These features are designed for devices with BLE 5.3+ support and companion hardware.</p>
+            </div>
+        </section>
+
+        <!-- Unavailable Features Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+            <div class="p-space-lg rounded-xl bg-surface-container-low/50 shadow-md flex flex-col gap-space-md opacity-60">
+                <div class="flex items-center gap-space-sm">
+                    <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
+                        <span class="material-symbols-outlined text-xl">sensors</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface-variant font-semibold">BLE Beacon Pairing</h3>
+                        <span class="font-label-sm text-label-sm text-error">Not Available</span>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Pair Bluetooth Low Energy beacons and tags for proximity-based item tracking. Requires BLE 5.3+ hardware and Web Bluetooth API support.</p>
+            </div>
+
+            <div class="p-space-lg rounded-xl bg-surface-container-low/50 shadow-md flex flex-col gap-space-md opacity-60">
+                <div class="flex items-center gap-space-sm">
+                    <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
+                        <span class="material-symbols-outlined text-xl">radar</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface-variant font-semibold">Proximity Detection</h3>
+                        <span class="font-label-sm text-label-sm text-error">Not Available</span>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Real-time proximity monitoring for checklist items using UWB and BLE signal strength. Requires compatible hardware beacons.</p>
+            </div>
+
+            <div class="p-space-lg rounded-xl bg-surface-container-low/50 shadow-md flex flex-col gap-space-md opacity-60">
+                <div class="flex items-center gap-space-sm">
+                    <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
+                        <span class="material-symbols-outlined text-xl">thermostat</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface-variant font-semibold">Environmental Sensors</h3>
+                        <span class="font-label-sm text-label-sm text-error">Not Available</span>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Temperature, humidity, and weather-based smart recommendations. Requires IoT sensor integration.</p>
+            </div>
+
+            <div class="p-space-lg rounded-xl bg-surface-container-low/50 shadow-md flex flex-col gap-space-md opacity-60">
+                <div class="flex items-center gap-space-sm">
+                    <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
+                        <span class="material-symbols-outlined text-xl">nfc</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface-variant font-semibold">RFID/NFC Tag Scanning</h3>
+                        <span class="font-label-sm text-label-sm text-error">Not Available</span>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Automatic item verification using RFID or NFC tags. Requires NFC hardware and Web NFC API support.</p>
+            </div>
+        </section>
+
+        <!-- Available Software Features -->
+        <section class="bg-surface-container rounded-xl p-space-lg shadow-xl">
+            <div class="flex items-center gap-space-sm mb-space-md pb-space-md border-b border-outline-variant/20">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-300">
+                    <span class="material-symbols-outlined text-xl">check_circle</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Available Software Features</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md">
+                <div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-emerald-300">check</span>
+                    <span class="font-body-sm text-body-sm text-on-surface">Destination checklists</span>
+                </div>
+                <div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-emerald-300">check</span>
+                    <span class="font-body-sm text-body-sm text-on-surface">Custom destination management</span>
+                </div>
+                <div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-emerald-300">check</span>
+                    <span class="font-body-sm text-body-sm text-on-surface">Session history tracking</span>
+                </div>
+                <div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-emerald-300">check</span>
+                    <span class="font-body-sm text-body-sm text-on-surface">Smart insights & recommendations</span>
+                </div>
+                <div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-emerald-300">check</span>
+                    <span class="font-body-sm text-body-sm text-on-surface">Browser-based reminders</span>
+                </div>
+                <div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-emerald-300">check</span>
+                    <span class="font-body-sm text-body-sm text-on-surface">Data export (JSON)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Information -->
+        <section class="bg-surface-container rounded-xl p-space-lg shadow-xl">
+            <div class="flex items-center gap-space-sm mb-space-md pb-space-md border-b border-outline-variant/20">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-xl">info</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Requirements for Hardware Features</h2>
+            </div>
+
+            <div class="flex flex-col gap-space-sm">
+                <div class="p-space-md rounded-lg bg-surface-container-low">
+                    <h3 class="font-label-lg text-label-lg text-on-surface font-semibold mb-space-sm">Browser Requirements</h3>
+                    <ul class="list-disc list-inside font-body-sm text-body-sm text-on-surface-variant space-y-1">
+                        <li>Web Bluetooth API support (Chrome, Edge, Opera)</li>
+                        <li>Web NFC API support (limited browser availability)</li>
+                        <li>HTTPS connection (required for Web APIs)</li>
+                    </ul>
+                </div>
+
+                <div class="p-space-md rounded-lg bg-surface-container-low">
+                    <h3 class="font-label-lg text-label-lg text-on-surface font-semibold mb-space-sm">Hardware Requirements</h3>
+                    <ul class="list-disc list-inside font-body-sm text-body-sm text-on-surface-variant space-y-1">
+                        <li>BLE 5.3+ compatible beacons (AirTag, Tile, Chipolo, etc.)</li>
+                        <li>UWB-enabled devices for precise ranging</li>
+                        <li>NFC tags for automatic item verification</li>
+                        <li>IoT environmental sensors (optional)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

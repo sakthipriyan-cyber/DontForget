@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Don'tForget - Departure Reminder{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] w-full mx-auto px-margin-mobile md:px-margin pb-space-xl flex flex-col gap-space-lg">
+    <div class="flex flex-col gap-space-xs">
+        <h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Departure Reminder</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">Choose when you are leaving and how long you need to prepare.</p>
+    </div>
+
+    <section class="bg-surface-container rounded-xl p-space-lg shadow-xl max-w-3xl mx-auto w-full">
+        <form method="post" class="flex flex-col gap-space-lg">
+            <div class="flex flex-col gap-space-xs">
+                <label for="departure_time" class="font-label-lg text-label-lg text-on-surface font-semibold">Departure time</label>
+                <input class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md px-space-md py-space-sm rounded-lg outline-none focus:bg-surface-container-high transition-colors" id="departure_time" name="departure_time" type="time" value="{{ departure_time }}" required>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Use your local 24-hour time.</span>
+            </div>
+
+            <div class="flex flex-col gap-space-xs">
+                <label for="duration_minutes" class="font-label-lg text-label-lg text-on-surface font-semibold">Preparation time (minutes)</label>
+                <input class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md px-space-md py-space-sm rounded-lg outline-none focus:bg-surface-container-high transition-colors" id="duration_minutes" name="duration_minutes" type="number" min="1" max="720" value="{{ duration_minutes }}" required>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">Choose between 1 and 720 minutes.</span>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-space-sm">
+                <button class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_0_24px_-2px_rgba(128,131,255,0.45)] hover:brightness-110 active:scale-95 transition-all" type="submit">
+                    <span class="material-symbols-outlined text-lg">alarm</span>
+                    <span>Set reminder</span>
+                </button>
+                <button class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-surface-container-high text-on-surface font-label-lg text-label-lg hover:bg-surface-container-highest transition-colors" id="cancel-reminder" type="button">
+                    <span class="material-symbols-outlined text-lg">cancel</span>
+                    <span>Cancel reminder</span>
+                </button>
+            </div>
+        </form>
+
+        {% if reminder %}
+        <div class="mt-space-lg pt-space-lg border-t-2 border-primary/30">
+            <div class="p-space-lg rounded-xl bg-primary/10 border border-primary/20" id="reminder-result" data-preparation="{{ reminder.preparation_iso }}">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mb-space-md text-center">Reminder set</h2>
+                {% if reminder.moved_to_tomorrow %}
+                <div class="p-space-md rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center gap-space-sm mb-space-md">
+                    <span class="material-symbols-outlined text-amber-300">info</span>
+                    <span class="font-body-sm text-body-sm text-amber-300">That time has passed today, so this reminder is for tomorrow.</span>
+                </div>
+                {% endif %}
+                <div class="text-center space-y-2">
+                    <p class="font-body-md text-body-md text-on-surface">Start preparing at <strong class="text-primary">{{ reminder.preparation_display }}</strong>.</p>
+                    <p class="font-body-md text-body-md text-on-surface">Departure is at <strong class="text-primary">{{ reminder.departure_display }}</strong>.</p>
+                    <p class="font-display-lg text-headline-xl text-primary font-bold tracking-tight mt-space-md" id="countdown">Calculating countdown…</p>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-space-md">Keep this page open. Browser reminders may not fire reliably if the page is closed or your device sleeps.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+</div>
+
+<script>
+(() => {
+    const result = document.getElementById('reminder-result');
+    const cancel = document.getElementById('cancel-reminder');
+    let timer;
+    if (result) {
+        const preparation = new Date(result.dataset.preparation);
+        const countdown = document.getElementById('countdown');
+        const update = () => {
+            const seconds = Math.max(0, Math.ceil((preparation - new Date()) / 1000));
+            if (seconds === 0) {
+                countdown.textContent = 'It is time to start preparing!';
+                countdown.classList.add('text-emerald-300');
+                window.clearInterval(timer);
+                window.alert('It is time to start preparing!');
+                return;
+            }
+            countdown.textContent = `Preparation starts in ${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m ${seconds % 60}s.`;
+        };
+        update();
+        timer = window.setInterval(update, 1000);
+    }
+    cancel?.addEventListener('click', () => { window.clearInterval(timer); document.getElementById('reminder-result')?.remove(); });
+})();
+</script>
+{% endblock %}

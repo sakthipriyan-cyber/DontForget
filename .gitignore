@@ -1,0 +1,33 @@
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local databases and backups
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Personal history and migration records
+history.json
+migration_tracker.json
+
+# Temporary backup files
+*.before_history_fix
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

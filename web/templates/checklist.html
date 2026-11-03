@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Don'tForget - Checklist{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] w-full mx-auto px-margin-mobile md:px-margin pb-space-xl flex flex-col gap-space-lg">
+    <div class="flex flex-col gap-space-xs">
+        <h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Destination Checklist</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">Select your destination and check each item you have packed.</p>
+    </div>
+
+    {% if saved %}
+    <div class="p-space-lg rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-emerald-300 text-xl">check_circle</span>
+        <span class="font-body-md text-body-md text-emerald-300 font-medium">Success! Your checklist has been saved.</span>
+    </div>
+    {% endif %}
+
+    {% if not saved %}
+    <form method="POST" action="{{ url_for('checklist') }}" class="flex flex-col gap-space-lg">
+        <div class="bg-surface-container rounded-xl p-space-lg shadow-lg">
+            <div class="flex flex-col gap-space-xs mb-space-md">
+                <label for="destination" class="font-label-lg text-label-lg text-on-surface font-semibold">Where are you going?</label>
+                <select name="destination" id="destination" class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md px-space-md py-space-sm rounded-lg outline-none focus:bg-surface-container-high transition-colors"
+                onchange="window.location.href='{{ url_for('checklist') }}?destination=' + encodeURIComponent(this.value)">
+                    {% for dest in destinations %}
+                    <option value="{{ dest }}" {% if dest == destination %}selected{% endif %}>{{ dest }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex flex-col gap-space-md">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">{{ destination }} Essentials</h2>
+
+                <div class="flex flex-col gap-space-xs">
+                    {% for item in checklist_items %}
+                    <label class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-low/70 hover:bg-surface-container-high cursor-pointer transition-colors group/item">
+                        <input type="checkbox"
+                               id="item_{{ loop.index }}"
+                               name="packed_items"
+                               value="{{ item }}"
+                               class="w-5 h-5 rounded accent-primary-container cursor-pointer">
+                        <span class="font-body-md text-body-md text-on-surface flex-1">{{ item }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-space-md">
+                    <button type="submit" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_0_24px_-2px_rgba(128,131,255,0.45)] hover:brightness-110 active:scale-95 transition-all">
+                        <span class="material-symbols-outlined text-lg">save</span>
+                        <span>Save Checklist</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% else %}
+    <div class="bg-surface-container rounded-xl p-space-lg shadow-xl flex flex-col gap-space-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md pb-space-md border-b border-outline-variant/20">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">{{ destination }} Checklist Summary</h2>
+            <div class="text-center bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container p-space-md rounded-xl shadow-lg">
+                <span class="block font-display-lg text-headline-xl font-bold">{{ completion_percent|round(1) }}%</span>
+                <span class="font-label-sm text-label-sm opacity-90">Complete</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-space-md">
+            <div class="text-center p-space-md bg-surface-container-low rounded-lg">
+                <span class="block font-display-lg text-headline-xl text-on-surface font-bold">{{ packed_count }}</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Packed</span>
+            </div>
+            <div class="text-center p-space-md bg-surface-container-low rounded-lg">
+                <span class="block font-display-lg text-headline-xl text-on-surface font-bold">{{ total_items - packed_count }}</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Missing</span>
+            </div>
+            <div class="text-center p-space-md bg-surface-container-low rounded-lg">
+                <span class="block font-display-lg text-headline-xl text-on-surface font-bold">{{ total_items }}</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Total</span>
+            </div>
+        </div>
+
+        {% if missing_items %}
+        <div class="p-space-md rounded-lg bg-amber-500/10 border border-amber-500/30">
+            <div class="flex items-center gap-space-sm mb-space-sm">
+                <span class="material-symbols-outlined text-amber-300">warning</span>
+                <span class="font-body-md text-body-md text-amber-300 font-semibold">Warning: Please check these items before leaving:</span>
+            </div>
+            <ul class="list-disc list-inside font-body-sm text-body-sm text-amber-200 space-y-1">
+                {% for item in missing_items %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div class="p-space-md rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-emerald-300 text-xl">check_circle</span>
+            <span class="font-body-md text-body-md text-emerald-300 font-semibold">Great job! All items are marked as packed.</span>
+        </div>
+        {% endif %}
+
+        <div class="mt-space-md">
+            <a href="{{ url_for('checklist') }}" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_0_24px_-2px_rgba(128,131,255,0.45)] hover:brightness-110 active:scale-95 transition-all no-underline">
+                <span class="material-symbols-outlined text-lg">add_circle</span>
+                <span>Start New Checklist</span>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

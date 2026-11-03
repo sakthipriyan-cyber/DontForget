@@ -1,0 +1,163 @@
+
+{% extends "base.html" %}
+
+{% block title %}Don'tForget - Home{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] w-full mx-auto px-margin-mobile md:px-margin pb-space-xl flex flex-col gap-space-lg">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden rounded-xl bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.45)] mt-space-md">
+        <!-- Ambient Radiant Color Diffusion Glows -->
+        <div class="absolute -top-36 -right-28 w-96 h-96 bg-primary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-40 -left-20 w-80 h-80 bg-secondary-container/25 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 p-space-md md:p-space-lg flex flex-col gap-space-lg">
+            <div class="flex flex-col gap-space-xs">
+                <p class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">YOUR PERSONAL DEPARTURE ASSISTANT</p>
+                <h1 class="font-display-lg text-display-lg text-on-surface font-black tracking-tight">Don'tForget</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant">Leave prepared. Stay organized. Never forget your essentials.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Intro -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+        <div class="flex flex-col gap-space-xs">
+            <h2 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Your Dashboard</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">Everything you need before heading out.</p>
+        </div>
+        <a href="{{ url_for('checklist') }}" class="inline-flex items-center justify-center gap-space-xs min-h-[44px] px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_0_24px_-2px_rgba(128,131,255,0.45)] hover:brightness-110 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-lg">check_circle</span>
+            <span>Start Preparing</span>
+        </a>
+    </section>
+
+    <!-- Quick Links Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+        <a href="{{ url_for('checklist') }}" class="bg-surface-container rounded-xl p-space-lg shadow-lg flex flex-col justify-between group hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-all no-underline">
+            <div>
+                <div class="flex items-center justify-between mb-space-md">
+                    <div class="flex items-center gap-space-sm">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined text-xl">checklist</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Start Checklist</h2>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Prepare Now</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Choose your destination and check the essentials you need.</p>
+            </div>
+            <span class="inline-block mt-space-md font-label-sm text-label-sm text-primary font-semibold">Open checklist →</span>
+        </a>
+
+        <a href="{{ url_for('history') }}" class="bg-surface-container rounded-xl p-space-lg shadow-lg flex flex-col justify-between group hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-all no-underline">
+            <div>
+                <div class="flex items-center justify-between mb-space-md">
+                    <div class="flex items-center gap-space-sm">
+                        <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                            <span class="material-symbols-outlined text-xl">history</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">View History</h2>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Past Sessions</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Review your previous checklist sessions and progress.</p>
+            </div>
+            <span class="inline-block mt-space-md font-label-sm text-label-sm text-secondary font-semibold">View history →</span>
+        </a>
+
+        <a href="{{ url_for('insights') }}" class="bg-surface-container rounded-xl p-space-lg shadow-lg flex flex-col justify-between group hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-all no-underline">
+            <div>
+                <div class="flex items-center justify-between mb-space-md">
+                    <div class="flex items-center gap-space-sm">
+                        <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+                            <span class="material-symbols-outlined text-xl">insights</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Smart Insights</h2>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Analytics</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Explore recommendations based on your checklist history.</p>
+            </div>
+            <span class="inline-block mt-space-md font-label-sm text-label-sm text-tertiary font-semibold">Explore insights →</span>
+        </a>
+
+        <a href="{{ url_for('reminder') }}" class="bg-surface-container rounded-xl p-space-lg shadow-lg flex flex-col justify-between group hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-all no-underline">
+            <div>
+                <div class="flex items-center justify-between mb-space-md">
+                    <div class="flex items-center gap-space-sm">
+                        <div class="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center text-error">
+                            <span class="material-symbols-outlined text-xl">alarm</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Departure Reminder</h2>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Time Alerts</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Plan when to start getting ready for your departure.</p>
+            </div>
+            <span class="inline-block mt-space-md font-label-sm text-label-sm text-error font-semibold">Manage reminders →</span>
+        </a>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="p-space-lg rounded-xl bg-surface-container shadow-xl">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-lg mb-space-md">
+            <div class="flex flex-col gap-space-xs">
+                <h2 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Your Activity</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">A quick overview of your checklist sessions.</p>
+            </div>
+            <a href="{{ url_for('history') }}" class="font-label-sm text-label-sm text-primary font-semibold hover:underline">View all →</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+            <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-primary/10 blur-xl group-hover:bg-primary/20 transition-all pointer-events-none"></div>
+                <div class="flex items-center justify-between">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Sessions</span>
+                    <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-base">door_front</span>
+                    </div>
+                </div>
+                <div class="mt-space-md flex flex-col">
+                    <div class="flex items-baseline gap-space-xs">
+                        <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ total_sessions }}</span>
+                        <span class="font-label-md text-label-md text-secondary font-medium">Sessions</span>
+                    </div>
+                    <div class="mt-space-xs flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+                        <span>Checklist sessions recorded</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-secondary/10 blur-xl group-hover:bg-secondary/20 transition-all pointer-events-none"></div>
+                <div class="flex items-center justify-between">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Last Session</span>
+                    <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined text-base">schedule</span>
+                    </div>
+                </div>
+                <div class="mt-space-md flex flex-col">
+                    <div class="flex items-baseline gap-space-xs">
+                        <span class="font-body-lg text-body-lg text-on-surface font-medium">{{ last_session }}</span>
+                    </div>
+                    <div class="mt-space-xs flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+                        <span>Your most recent recorded session</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <p class="font-body-sm text-body-sm text-on-surface-variant text-center py-space-lg">
+        A little preparation makes every departure easier.
+    </p>
+</div>
+{% endblock %}

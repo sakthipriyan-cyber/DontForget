@@ -1,0 +1,114 @@
+
+{% extends "base.html" %}
+
+{% block title %}Don'tForget - Smart Insights{% endblock %}
+
+{% block content %}
+<div class="max-w-[1440px] w-full mx-auto px-margin-mobile md:px-margin pb-space-xl flex flex-col gap-space-lg">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+        <div class="flex flex-col gap-space-xs max-w-3xl">
+            <div class="flex items-center gap-space-sm">
+                <span class="px-space-sm py-space-xs rounded-full bg-tertiary-container/30 text-tertiary font-label-sm text-label-sm uppercase tracking-wider">Analytics Engine</span>
+            </div>
+            <h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Smart Insights</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">Discover which items you most often forget and get personalized recommendations.</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-space-lg">
+    {% for result in results %}
+    <section class="bg-surface-container rounded-xl p-space-lg shadow-xl flex flex-col gap-space-md">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md pb-space-md border-b border-outline-variant/20">
+            <div class="flex items-center gap-space-sm">
+                <div class="w-10 h-10 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+                    <span class="material-symbols-outlined text-xl">insights</span>
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">{{ result.destination }}</h2>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+            <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-primary/10 blur-xl group-hover:bg-primary/20 transition-all pointer-events-none"></div>
+                <div class="flex items-center justify-between">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Saved Checklists</span>
+                    <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-base">folder</span>
+                    </div>
+                </div>
+                <div class="mt-space-md flex flex-col">
+                    <div class="flex items-baseline gap-space-xs">
+                        <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ result.sessions }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-secondary/10 blur-xl group-hover:bg-secondary/20 transition-all pointer-events-none"></div>
+                <div class="flex items-center justify-between">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Items Missing</span>
+                    <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined text-base">warning</span>
+                    </div>
+                </div>
+                <div class="mt-space-md flex flex-col">
+                    <div class="flex items-baseline gap-space-xs">
+                        <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ result.total_missing }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-space-lg rounded-xl bg-surface-container-low/90 shadow-md flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-tertiary-container/20 blur-xl group-hover:bg-tertiary-container/30 transition-all pointer-events-none"></div>
+                <div class="flex items-center justify-between">
+                    <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Missing Rate</span>
+                    <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-tertiary">
+                        <span class="material-symbols-outlined text-base">percent</span>
+                    </div>
+                </div>
+                <div class="mt-space-md flex flex-col">
+                    <div class="flex items-baseline gap-space-xs">
+                        <span class="font-display-lg text-headline-xl text-on-surface font-bold tracking-tight">{{ "%.1f"|format(result.missing_percentage) }}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-space-md">
+            <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Frequently Missing Items</h3>
+
+            {% if result.ranked_items %}
+            <div class="p-space-md rounded-lg bg-surface-container-low">
+                <ul class="space-y-2">
+                    {% for item, count in result.ranked_items %}
+                    <li class="flex items-center gap-space-sm font-body-sm text-body-sm text-on-surface">
+                        <span class="material-symbols-outlined text-error text-sm">close</span>
+                        <span>{{ item }}</span>
+                        <span class="font-label-sm text-label-sm text-on-surface-variant ml-auto">missed {{ count }} time(s)</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="p-space-md rounded-lg bg-surface-container-low">
+                <p class="font-body-sm text-body-sm text-on-surface-variant">No missing items recorded yet.</p>
+            </div>
+            {% endif %}
+
+            <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Recommendations</h3>
+            <div class="p-space-md rounded-lg bg-primary/10 border border-primary/20">
+                <ul class="space-y-2">
+                    {% for recommendation in result.recommendations %}
+                    <li class="flex items-start gap-space-sm font-body-sm text-body-sm text-on-surface">
+                        <span class="material-symbols-outlined text-primary text-sm mt-0.5">lightbulb</span>
+                        <span>{{ recommendation }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+/* Shared visual refinements; built on the existing Don'tForget palette. */
+:root {
+    --df-ink: #2c3e50;
+    --df-muted: #667085;
+    --df-accent: #667eea;
+    --df-accent-hover: #5568d3;
+    --df-border: #d7dce3;
+    --df-surface: #fff;
+    --df-shadow: 0 3px 12px rgba(44, 62, 80, 0.08);
+}
+
+body {
+    color: #344054;
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { color: var(--df-ink); line-height: 1.25; }
+h1 { font-size: clamp(1.7rem, 3.5vw, 2.35rem); letter-spacing: -0.025em; }
+h2 { font-size: clamp(1.25rem, 2.5vw, 1.65rem); letter-spacing: -0.015em; }
+p, li { line-height: 1.65; }
+
+.main-content { width: min(100% - 2rem, 1200px); }
+.container { width: 100%; }
+.page-header, .checklist-container, .checklist-result, .filter-section,
+.history-card, .insight-card, .reminder-card, .stats-section {
+    border: 1px solid rgba(44, 62, 80, 0.06);
+    box-shadow: var(--df-shadow);
+}
+.page-header { padding: clamp(1.25rem, 3vw, 2rem); }
+.page-header p { max-width: 68ch; margin-top: 0.35rem; }
+.quick-links, .history-list, .insights-list { gap: clamp(0.85rem, 2vw, 1.5rem); }
+.card, .history-card, .insight-card { transition: transform 160ms ease, box-shadow 160ms ease; }
+
+.btn, button, input, select, textarea { font: inherit; }
+.btn {
+    min-height: 2.75rem;
+    padding: 0.65rem 1.15rem;
+    border-radius: 6px;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+.btn-primary { background-color: var(--df-accent); }
+.btn-primary:hover { background-color: var(--df-accent-hover); }
+.btn:active { transform: translateY(1px); }
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, .checkbox-label:focus-visible {
+    outline: 3px solid rgba(102, 126, 234, 0.6);
+    outline-offset: 3px;
+}
+.form-control {
+    min-height: 2.8rem;
+    border-color: var(--df-border);
+    background-color: var(--df-surface);
+}
+.form-control:focus { border-color: var(--df-accent); }
+.checkbox-input { accent-color: var(--df-accent); }
+.alert { line-height: 1.5; }
+
+@media (min-width: 769px) {
+    .form-group { max-width: 100%; }
+    .checklist-item { padding-inline: 1rem; }
+}
+
+@media (max-width: 768px) {
+    .main-content { width: min(100% - 1.25rem, 1200px); }
+    .navbar { padding: 0.75rem 0; }
+    .nav-brand a { font-size: 1.35rem; }
+    .nav-menu a { min-height: 2.6rem; }
+    .hero { padding: clamp(1.75rem, 8vw, 3rem) 1rem; }
+    .result-stats, .history-stats { padding: 0.85rem; }
+}
+
+@media (max-width: 480px) {
+    .main-content { width: calc(100% - 1rem); padding-inline: 0; }
+    .page-header, .checklist-container, .checklist-result, .filter-section,
+    .history-card, .insight-card, .reminder-card { padding: 1rem; border-radius: 7px; }
+    .form-actions { align-items: stretch; }
+    .form-actions .btn { width: 100%; }
+    .result-stats, .history-stats { gap: 0.5rem; }
+    .stat-value, .history-stat-value { font-size: 1.35rem; }
+    .completion-percent { font-size: 1.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}

@@ -1,0 +1,21 @@
+
+/* Don'tForget — Dashboard Enhancements for Tailwind Design */
+
+/* Custom Tailwind spacing utilities */
+.px-margin {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.px-margin-mobile {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Dark mode color overrides for existing CSS */
+@media (max-width: 768px) {
+    .px-margin {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

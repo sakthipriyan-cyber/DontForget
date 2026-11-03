@@ -1,0 +1,42 @@
+/* Responsive layout refinements for phones, tablets, and desktop widths. */
+html { overflow-x: hidden; }
+img, input, select, button, textarea { max-width: 100%; }
+.form-group { min-width: 0; }
+.form-control { min-height: 2.75rem; }
+.form-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+.form-actions .btn { margin: 0; }
+.checklist-container, .checklist-result, .history-card, .insight-card, .reminder-card { min-width: 0; }
+.result-header, .history-header { gap: 1rem; flex-wrap: wrap; }
+.result-header h2, .history-header h3 { overflow-wrap: anywhere; }
+.result-stats, .history-stats, .insight-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.stat, .history-stat, .insight-stat { min-width: 0; }
+.history-date { overflow-wrap: anywhere; }
+.insights-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.insight-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.insight-card h2 { color: #2c3e50; margin-bottom: 1rem; overflow-wrap: anywhere; }
+.insight-card h3 { color: #2c3e50; margin-top: 1.25rem; }
+.insight-card ul { padding-left: 1.25rem; overflow-wrap: anywhere; }
+.insight-stat { text-align: center; background: #f8f9fa; padding: 0.85rem 0.5rem; border-radius: 6px; }
+.insight-stat h3 { color: #666; font-size: 0.85rem; margin: 0 0 0.35rem; }
+.insight-stat p { color: #2c3e50; font-size: 1.5rem; font-weight: bold; }
+@media (max-width: 768px) {
+    .main-content { margin-top: 1rem; padding: 0 0.75rem; }
+    .page-header, .checklist-container, .checklist-result, .filter-section, .history-card, .insight-card, .reminder-card { padding: 1.25rem; }
+    .page-header { margin-bottom: 1rem; }
+    .nav-menu { width: 100%; gap: 0.35rem; }
+    .nav-menu a { display: block; padding: 0.45rem 0.6rem; }
+    .result-header { align-items: flex-start; }
+    .completion-badge { margin-left: auto; }
+    .history-header { align-items: flex-start; }
+}
+@media (max-width: 480px) {
+    .nav-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .nav-menu a { text-align: center; }
+    .hero { padding: 2rem 1rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .result-stats, .history-stats, .insight-stats { grid-template-columns: 1fr; }
+    .completion-badge { margin-left: 0; width: 100%; }
+    .checklist-item { align-items: flex-start; }
+    .checkbox-input { flex: 0 0 auto; margin-top: 0.2rem; }
+    .form-actions .btn { width: 100%; }
+}
